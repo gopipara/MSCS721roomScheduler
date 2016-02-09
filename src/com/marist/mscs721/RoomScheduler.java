@@ -1,22 +1,31 @@
 package com.marist.mscs721;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class RoomScheduler {
 	protected static Scanner keyboard = new Scanner(System.in);
-
-
+	
+	
+     private static final Logger LOGGER = Logger.getLogger("java.util.logger");
+	 private static final String SEPERATOR  = "---------------------";
+	 private static final Level WARNING = Level.WARNING;
+	 private static final Level SEVERE = Level.SEVERE;
+	
+	 private RoomScheduler(){
+		 
+	 }
+	 
 	public static void main(String[] args) 
 	{
 		
-		Boolean end = false;
+        Boolean end = false;
 		ArrayList<Room> rooms = new ArrayList<Room>();
 
 		while (!end) 
@@ -28,16 +37,16 @@ public class RoomScheduler {
 				addRoom(rooms);
 				break;
 			case 2:
-				System.out.println(removeRoom(rooms));
+				LOGGER.info(removeRoom(rooms));
 				break;
 			case 3:
-				System.out.println(scheduleRoom(rooms));
+				LOGGER.info(scheduleRoom(rooms));
 				break;
 			case 4:
-				System.out.println(listSchedule(rooms));
+				LOGGER.info(listSchedule(rooms));
 				break;
 			case 5:
-				System.out.println(listRooms(rooms));
+				LOGGER.info(listRooms(rooms));
 				break;
 			case 6:
 				exportRooms(rooms);
@@ -46,7 +55,7 @@ public class RoomScheduler {
 				exportSchedule(rooms);
 				break;
 			default:
-				System.out.println("Please enter between (1 - 7)");
+				LOGGER.info("Please enter between (1 - 7)");
 				
 			}
 
@@ -76,13 +85,14 @@ public class RoomScheduler {
 			try {
 				file = new FileWriter("rooms.json");
 				file.write(roomObj.toJSONString());
-				System.out.println("Successfully Copied JSON Object to File...");
-				System.out.println("\nJSON Object: " + roomObj);
+				LOGGER.info("Successfully Copied JSON Object to File...");
+				LOGGER.info("\nJSON Object: " + roomObj);
 				file.flush();
 				file.close();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (IOException e) {
+			
+				 LOGGER.log(SEVERE,"Error",e);
+				
 			}
 				
 		
@@ -98,7 +108,6 @@ public class RoomScheduler {
 		JSONObject singleRoomObj = new JSONObject();
 		for (Room room : roomList) 
 		{
-			//System.out.println(room.getName());
 			
 			JSONArray meetingArrayObj = new JSONArray();
 		 for (Meeting m : room.getMeetings()) 
@@ -107,12 +116,10 @@ public class RoomScheduler {
 			 	
 				singleObj.put("start", m.getStartTime().toString());
 				singleObj.put("stop", m.getStopTime().toString());
-				//System.out.println(singleObj);
 				meetingArrayObj.add(singleObj);
 		 }
 		 
 		 singleRoomObj.put(room.getName(), meetingArrayObj);
-		 //System.out.println(singleRoomObj);
 		 
 		}
 		
@@ -122,13 +129,13 @@ public class RoomScheduler {
 		try {
 			file = new FileWriter("schedule.json");
 			file.write(scheduleObj.toJSONString());
-			System.out.println("Successfully Copied JSON Object to File...");
-			System.out.println("\nJSON Object: " + scheduleObj);
+			LOGGER.info("Successfully Copied JSON Object to File...");
+			LOGGER.info("\nJSON Object: " + scheduleObj);
 			file.flush();
 			file.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (IOException e) {
+			 LOGGER.log(SEVERE,"Error",e);
+				
 		}
 	}
 
@@ -143,24 +150,23 @@ public class RoomScheduler {
 	 
 	{
 		
-		if(roomList.size()>0)
-		{
+		
 			String roomName = getRoomName();
-			if(findRoomIndex(roomList,roomName) != -1)
+			if(findRoomIndex(roomList,roomName) != -1 && !roomList.isEmpty())
 			{
-			    System.out.println(roomName + " Schedule");
-				System.out.println("---------------------");
+			    LOGGER.info(roomName + " Schedule");
+				LOGGER.info(SEPERATOR);
 				
 				 if(getRoomFromName(roomList, roomName).getMeetings().size() >0)
 				 {
 					 for (Meeting m : getRoomFromName(roomList, roomName).getMeetings()) 
 					 {
-							System.out.println(m.toString());
+							LOGGER.info(m.toString());
 					 }
 				 }
 				 else
 				 {
-					 System.out.println("No Schedule for the requested room: "+roomName);
+					 LOGGER.info("No Schedule for the requested room: "+roomName);
 				 }
 				
 			}
@@ -169,11 +175,7 @@ public class RoomScheduler {
 				return "Please check room no : "+roomName;
 			}
 			
-			}
-		else
-		{
-			return "No Schedule to show !!";
-		}
+		
 		
 		return "";
 		}
@@ -184,21 +186,22 @@ public class RoomScheduler {
 	protected static int mainMenu() 
 	{
 		int option = 0;
-		System.out.println("Main Menu:");
-		System.out.println("  1 - Add a room");
-		System.out.println("  2 - Remove a room");
-		System.out.println("  3 - Schedule a room");
-		System.out.println("  4 - List Schedule");
-		System.out.println("  5 - List Rooms");
-		System.out.println("  6 - Export Rooms");
-		System.out.println("  7 - Export Room Scheduling");
-		System.out.println("Enter your selection: ");
-			
+		LOGGER.info("Main Menu:");
+		LOGGER.info("  1 - Add a room");
+		LOGGER.info("  2 - Remove a room");
+		LOGGER.info("  3 - Schedule a room");
+		LOGGER.info("  4 - List Schedule");
+		LOGGER.info("  5 - List Rooms");
+		LOGGER.info("  6 - Export Rooms");
+		LOGGER.info("  7 - Export Room Scheduling");
+		LOGGER.info("Enter your selection: ");
+	
 		try {
 			option = keyboard.nextInt();
 			
 		} catch (Exception e) {
-			System.out.println("****Error****: Input Mismatch");
+			LOGGER.info("****Error****: Input Mismatch");
+			  LOGGER.log(WARNING,"Warning",e);
             keyboard.next();
 			
 		}
@@ -212,19 +215,20 @@ public class RoomScheduler {
 	 */
 	protected static void addRoom(ArrayList<Room> roomList) 
 	{
-		System.out.println("Add a room:");
+		LOGGER.info("Add a room:");
 		String name = getRoomName();
-		System.out.println("Room capacity?");
+		LOGGER.info("Room capacity?");
 		try {
 			int capacity = keyboard.nextInt();
 
 			Room newRoom = new Room(name, capacity);
 			roomList.add(newRoom);
 
-			System.out.println("Room '" + newRoom.getName() + "' added successfully!");
+			LOGGER.info("Room '" + newRoom.getName() + "' added successfully!");
 		} catch (Exception e) {
-			System.out.println("****Error****: Input Mismatch-  Capacity must be an Integer");
-            keyboard.next();
+			LOGGER.info("****Error****: Input Mismatch-  Capacity must be an Integer");
+            LOGGER.log(WARNING,"Warning",e);
+			keyboard.next();
 			
 		}
 		
@@ -237,14 +241,14 @@ public class RoomScheduler {
 	 */
 	protected static String removeRoom(ArrayList<Room> roomList) 
 	{
-		System.out.println("Remove a room:");
+		LOGGER.info("Remove a room:");
 		
 		int roomIndex = findRoomIndex(roomList, getRoomName());
 		// i have found an error in the given code here. This method is removing the rooms which are not even present in the room list.
 		if(roomIndex>=0)
 			roomList.remove(roomIndex);
 		else
-			System.out.println("***ERROR*** Please check room no!!!");
+			LOGGER.info("***ERROR*** Please check room no!!!");
 
 		return "Room removed successfully!";
 	}
@@ -256,15 +260,15 @@ public class RoomScheduler {
 	 */
 	protected static String listRooms(ArrayList<Room> roomList) 
 	{
-		System.out.println("Room Name - Capacity");
-		System.out.println("---------------------");
+		LOGGER.info("Room Name - Capacity");
+		LOGGER.info(SEPERATOR);
 
 		for (Room room : roomList) 
 		{
-			System.out.println(room.getName() + " - " + room.getCapacity());
+			LOGGER.info(room.getName() + " - " + room.getCapacity());
 		}
 
-		System.out.println("---------------------");
+		LOGGER.info(SEPERATOR);
 
 		return roomList.size() + " Room(s)";
 	}
@@ -276,27 +280,22 @@ public class RoomScheduler {
 	 */
 	protected static String scheduleRoom(ArrayList<Room> roomList) 
 	{
-		if(roomList.size()>0)
 		
-			// Index size()>0 mean room is available in the array list.	and we can schedule a room.	
-		
-		{
-	
-		System.out.println("Schedule a room:");
+		LOGGER.info("Schedule a room:");
 		String name = getRoomName();
-		if(findRoomIndex(roomList,name) != -1)
+		if(!roomList.isEmpty() && findRoomIndex(roomList,name) != -1)
 			
 			// i have considered index as -1, if there is no room or there is no schedule for the available room.
 		   //  program enters in to this loop if index is not equals to -1
 		
 		{
-			System.out.println("Start Date? (yyyy-mm-dd):");
+			LOGGER.info("Start Date? (yyyy-mm-dd):");
 			String startDate = keyboard.next();
-			System.out.println("Start Time?(hh:mm:ss)");
+			LOGGER.info("Start Time?(hh:mm:ss)");
 			String startTime = keyboard.next();
-		    System.out.println("End Date? (yyyy-mm-dd):");
+		    LOGGER.info("End Date? (yyyy-mm-dd):");
 		    String endDate = keyboard.next();
-			System.out.println("End Time? (hh:mm:ss)");
+			LOGGER.info("End Time? (hh:mm:ss)");
 			String endTime = keyboard.next();
 		
 				try 
@@ -304,7 +303,7 @@ public class RoomScheduler {
 					Timestamp startTimestamp = Timestamp.valueOf(startDate + " " + startTime);
 					Timestamp endTimestamp = Timestamp.valueOf(endDate + " " + endTime);
 
-					System.out.println("Subject?");
+					LOGGER.info("Subject?");
 					String subject = keyboard.nextLine();
 					
 					Room curRoom = getRoomFromName(roomList, name);
@@ -325,8 +324,8 @@ public class RoomScheduler {
 				}
 				catch (Exception e) 
 				{
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
+					
+					  LOGGER.log(WARNING,"Warning",e);
 					return "Please check Date/Time format!";
 				}
 			}
@@ -334,12 +333,6 @@ public class RoomScheduler {
 		        {
 				return "The Room '"+name+"' Not Avialble!!!"; // if the room name is not available in the array list.
 			    }
-		
-		}
-		else
-		{
-			return "No Rooms Avialable to Schedule"; // if the index is -1.
-		}
 		
 	}
 
@@ -360,23 +353,22 @@ public class RoomScheduler {
 		
 		for (Meeting m : getRoomFromName(roomList, roomName).getMeetings()) 
 		{
-			System.out.println(start);
-			System.out.println(m.getStartTime());
+			
 			if( start.equals(m.getStartTime()))
 			{
 				isConflict = true;
-				break;
 			}
 			else if(start.after(m.getStartTime()) && start.before(m.getStopTime()))
 			{
 				isConflict = true;
-				break;
 			}
 			else if(end.after(m.getStartTime()) && end.before(m.getStopTime()))
 			{
 				isConflict = true;
-				break;
 			}
+			
+			if(isConflict)
+				break;
 			
 		}
 		
@@ -418,8 +410,8 @@ public class RoomScheduler {
 					break;
 				}
 					roomIndex++;
-			}
-		}
+		    }
+        }
 		
 		if(isFound)
 			return roomIndex;
@@ -433,7 +425,7 @@ public class RoomScheduler {
 	 */
 	   protected static String getRoomName() 
 	{
-		System.out.println("Room Name?");
+		LOGGER.info("Room Name?");
 		return keyboard.next();
 	}
 
