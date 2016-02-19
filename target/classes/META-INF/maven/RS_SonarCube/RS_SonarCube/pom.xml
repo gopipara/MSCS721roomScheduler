@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>RS_SonarCube</groupId>
+	<artifactId>RS_SonarCube</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+<!-- 	<scm>
+		<url>https://github.com/gopipara/MSCS721roomScheduler.git</url>
+	</scm>
+ -->	<packaging>jar</packaging>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-core-asl</artifactId>
+				<version>1.9.13</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+		</dependency>
+	</dependencies>
+	<name>RS_SonarCube</name>
+	<description>This website is useful for scheduling rooms. Main menu has different options for users to schedule a room and to schedule meetings or party's etc..
+This website has main menu which provides options like
+1.Add a room
+2.Remove a room
+3.List rooms
+4.Schedule a room
+5.Export rooms
+6. Import rooms
+Using these options user can add room and schedule meetings to it. Select the room which he wants if it is available in the roomlist.</description>
+	<scm>
+		<url>https://github.com/gopipara/MSCS721roomScheduler</url>
+	</scm>
+	<url>file:///C:/Users/Gopi/workspace/RS_SonarCube/target/site/index.html</url>
+	<issueManagement>
+		<system>Gopi</system>
+	</issueManagement>
+</project>
