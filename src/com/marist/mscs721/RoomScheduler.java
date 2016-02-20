@@ -54,7 +54,7 @@ public class RoomScheduler {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private static void exportRooms(ArrayList<Room> roomList) 
 	{
 		
@@ -198,7 +198,7 @@ public class RoomScheduler {
 			option = keyboard.nextInt();
 			
 		} catch (Exception e) {
-			System.out.println("****Error****: Input Mismatch");
+			System.out.println("Error: Input Mismatch");
             keyboard.next();
 			
 		}
@@ -223,7 +223,7 @@ public class RoomScheduler {
 
 			System.out.println("Room '" + newRoom.getName() + "' added successfully!");
 		} catch (Exception e) {
-			System.out.println("****Error****: Input Mismatch-  Capacity must be an Integer");
+			System.out.println("Error: Input Mismatch-  Capacity must be an Integer");
             keyboard.next();
 			
 		}
@@ -244,9 +244,9 @@ public class RoomScheduler {
 		if(roomIndex>=0)
 			roomList.remove(roomIndex);
 		else
-			System.out.println("***ERROR*** Please check room no!!!");
-
-		return "Room removed successfully!";
+			System.out.println("ERROR:Please check room no");
+		
+		return "Room removed successfully";
 	}
 
 	/**
@@ -304,7 +304,7 @@ public class RoomScheduler {
 					Timestamp startTimestamp = Timestamp.valueOf(startDate + " " + startTime);
 					Timestamp endTimestamp = Timestamp.valueOf(endDate + " " + endTime);
 
-					System.out.println("Subject?");
+					//System.out.println("Subject:");
 					String subject = keyboard.nextLine();
 					
 					Room curRoom = getRoomFromName(roomList, name);
@@ -314,12 +314,12 @@ public class RoomScheduler {
 					//check conflict
 					if(checkConflict(roomList,name,startTimestamp, endTimestamp))
 					{
-						return "****** Schedule conflict ******";
+						return "Time Conflict in Scheduling";
 					}
 					else
 					{
 						curRoom.addMeeting(meeting);
-						return "Successfully scheduled meeting!";
+						return "Meeting Scheduled Succesfully";
 					}
 				
 				}
@@ -332,7 +332,7 @@ public class RoomScheduler {
 			}
 		        else
 		        {
-				return "The Room '"+name+"' Not Avialble!!!"; // if the room name is not available in the array list.
+				return " Room '"+name+"' Not Avialble. \n Sorry"; // if the room name is not available in the array list.
 			    }
 		
 		}
@@ -433,7 +433,7 @@ public class RoomScheduler {
 	 */
 	   protected static String getRoomName() 
 	{
-		System.out.println("Room Name?");
+		System.out.println("Room Name:");
 		return keyboard.next();
 	}
 
