@@ -54,7 +54,6 @@ public class RoomScheduler {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	private static void exportRooms(ArrayList<Room> roomList) 
 	{
 		
@@ -181,7 +180,7 @@ public class RoomScheduler {
 	/**
 	 * This method provides the main menu for scheduling a room by the values given from the keyboard.
 	 */
-	protected static int mainMenu() 
+	public static int mainMenu() 
 	{
 		int option = 0;
 		System.out.println("Main Menu:");
@@ -198,7 +197,7 @@ public class RoomScheduler {
 			option = keyboard.nextInt();
 			
 		} catch (Exception e) {
-			System.out.println("****Error****: Input Mismatch");
+			System.out.println("Error: Input Mismatch");
             keyboard.next();
 			
 		}
@@ -223,7 +222,7 @@ public class RoomScheduler {
 
 			System.out.println("Room '" + newRoom.getName() + "' added successfully!");
 		} catch (Exception e) {
-			System.out.println("****Error****: Input Mismatch-  Capacity must be an Integer");
+			System.out.println("Error: Input Mismatch-  Capacity must be an Integer");
             keyboard.next();
 			
 		}
@@ -233,7 +232,7 @@ public class RoomScheduler {
 	/**
 	 * This method removes the room from the room list.
 	 * @param string <> roomList into an array list
-	 * @return "Room removed successfully!"
+	 * @return Room will be removed if it is present in the array index. Output:"Room removed successfully!"
 	 */
 	protected static String removeRoom(ArrayList<Room> roomList) 
 	{
@@ -243,10 +242,10 @@ public class RoomScheduler {
 		// i have found an error in the given code here. This method is removing the rooms which are not even present in the room list.
 		if(roomIndex>=0)
 			roomList.remove(roomIndex);
-		else
-			System.out.println("***ERROR*** Please check room no!!!");
-
-		return "Room removed successfully!";
+		
+		else 
+			System.out.println("ERROR:Please check room no!!");
+			return "Room removed successfully!";
 	}
 
 	/**
