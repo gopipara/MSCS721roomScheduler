@@ -1,5 +1,7 @@
 package com.marist.mscs721;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -8,6 +10,8 @@ import java.util.Scanner;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class RoomScheduler {
 	protected static Scanner keyboard = new Scanner(System.in);
@@ -21,7 +25,8 @@ public class RoomScheduler {
 
 		while (!end) 
 		{
-			switch (mainMenu()) 
+			int selection = mainMenu();
+			switch (selection) 
 			{
 
 			case 1:
@@ -45,8 +50,14 @@ public class RoomScheduler {
 			case 7:
 				exportSchedule(rooms);
 				break;
+			case 8:
+				importRooms(rooms);
+				break;
+			case 9:
+				importSchedule(rooms);
+				break;				
 			default:
-				System.out.println("Please enter between (1 - 7)");
+				System.out.println("Please enter between (1 - 9)");
 				
 			}
 
@@ -54,6 +65,7 @@ public class RoomScheduler {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void exportRooms(ArrayList<Room> roomList) 
 	{
 		
@@ -70,7 +82,6 @@ public class RoomScheduler {
 					
 				}
 		
-		
 			FileWriter file;
 			try {
 				file = new FileWriter("rooms.json");
@@ -86,7 +97,82 @@ public class RoomScheduler {
 				
 		
 	}
+	
+	private static void importRooms(ArrayList<Room> room){
+		
+		String data = fileReaderUtil("rooms.json");
+		for(Object obj : getJSONArray(data)){
+			JSONObject jo = (JSONObject) obj;
+			room.add( new Room(jo.get("roomName").toString(), Integer.parseInt( jo.get("capacity").toString() )) ); 
+		}
+		
+		System.out.println("---------------------");
+		System.out.println("Import Succesfull!!, The following rooms are imported..");
+		System.out.println(listRooms(room));
+	}
 
+	private static void importSchedule(ArrayList<Room> rooms) {
+		
+		String data = fileReaderUtil("schedule.json");
+		for(Object obj : getJSONArray(data)){
+			JSONObject jo = (JSONObject) obj;
+			for(Room r : rooms){
+				if( jo.get(r.getName()).toString().length() > 2 ){
+
+					for(Object newObj : getJSONArray( jo.get(r.getName()).toString() )){
+						JSONObject meetingObj = (JSONObject) newObj;
+						Timestamp newStartTime = Timestamp.valueOf( meetingObj.get("start").toString().split(" ")[0] + " " + meetingObj.get("start").toString().split(" ")[1]);
+						Timestamp newEndTime = Timestamp.valueOf( meetingObj.get("stop").toString().split(" ")[0] + " " + meetingObj.get("stop").toString().split(" ")[1]);
+						Meeting m = new Meeting(newStartTime, newEndTime, "");
+						r.getMeetings().add(m);
+					}
+					
+				}
+			}
+		}
+		
+		System.out.println("Import Succesfull!!, The following are the rooms scheduled..");
+		System.out.println("-----------------------------------");
+		for(Room m : rooms){
+			printRoomSchedule(rooms,m.getName());
+			System.out.println();
+		}
+		System.out.println("-----------------------------------");
+		
+	}
+	
+	private static JSONArray getJSONArray(String data){
+
+		JSONArray array = null;
+		JSONParser jparser = new JSONParser();
+		try {
+			Object ob = jparser.parse(data);
+			array = (JSONArray) ob;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return array;
+	}
+	
+	private static String fileReaderUtil(String fileName){
+		FileReader in = null;
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			in = new FileReader(fileName);
+			char[] charBuffer = new char[500];
+			in.read(charBuffer);
+			for (char c : charBuffer)
+				sb.append(c);
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sb.toString().trim();
+	}
+	
 	@SuppressWarnings("unchecked")
 	private static void exportSchedule(ArrayList<Room> roomList) {
 		
@@ -147,21 +233,7 @@ public class RoomScheduler {
 			String roomName = getRoomName();
 			if(findRoomIndex(roomList,roomName) != -1)
 			{
-			    System.out.println(roomName + " Schedule");
-				System.out.println("---------------------");
-				
-				 if(getRoomFromName(roomList, roomName).getMeetings().size() >0)
-				 {
-					 for (Meeting m : getRoomFromName(roomList, roomName).getMeetings()) 
-					 {
-							System.out.println(m.toString());
-					 }
-				 }
-				 else
-				 {
-					 System.out.println("No Schedule for the requested room: "+roomName);
-				 }
-				
+				printRoomSchedule(roomList,roomName);
 			}
 			else
 			{
@@ -177,10 +249,30 @@ public class RoomScheduler {
 		return "";
 		}
 
+	private static void printRoomSchedule(ArrayList<Room> roomList, String roomName) {
+
+	    System.out.println(roomName + " Schedule");
+		System.out.println("---------------------");
+		
+		 if(getRoomFromName(roomList, roomName).getMeetings().size() >0)
+		 {
+			 for (Meeting m : getRoomFromName(roomList, roomName).getMeetings()) 
+			 {
+					System.out.println(m.toString());
+			 }
+		 }
+		 else
+		 {
+			 System.out.println("No Schedule for the requested room: "+roomName);
+		 }
+		
+	
+	}
+
 	/**
 	 * This method provides the main menu for scheduling a room by the values given from the keyboard.
 	 */
-	public static int mainMenu() 
+	protected static int mainMenu() 
 	{
 		int option = 0;
 		System.out.println("Main Menu:");
@@ -191,13 +283,15 @@ public class RoomScheduler {
 		System.out.println("  5 - List Rooms");
 		System.out.println("  6 - Export Rooms");
 		System.out.println("  7 - Export Room Scheduling");
+		System.out.println("  8 - Import Rooms");
+		System.out.println("  9 - Import Schedule");
 		System.out.println("Enter your selection: ");
 			
 		try {
 			option = keyboard.nextInt();
 			
 		} catch (Exception e) {
-			System.out.println("Error: Input Mismatch");
+			System.out.println("****Error****: Input Mismatch");
             keyboard.next();
 			
 		}
@@ -222,7 +316,7 @@ public class RoomScheduler {
 
 			System.out.println("Room '" + newRoom.getName() + "' added successfully!");
 		} catch (Exception e) {
-			System.out.println("Error: Input Mismatch-  Capacity must be an Integer");
+			System.out.println("****Error****: Input Mismatch-  Capacity must be an Integer");
             keyboard.next();
 			
 		}
@@ -232,7 +326,7 @@ public class RoomScheduler {
 	/**
 	 * This method removes the room from the room list.
 	 * @param string <> roomList into an array list
-	 * @return Room will be removed if it is present in the array index. Output:"Room removed successfully!"
+	 * @return "Room removed successfully!"
 	 */
 	protected static String removeRoom(ArrayList<Room> roomList) 
 	{
@@ -242,10 +336,10 @@ public class RoomScheduler {
 		// i have found an error in the given code here. This method is removing the rooms which are not even present in the room list.
 		if(roomIndex>=0)
 			roomList.remove(roomIndex);
-		
-		else 
-			System.out.println("ERROR:Please check room no!!");
-			return "Room removed successfully!";
+		else
+			System.out.println("***ERROR*** Please check room no!!!");
+
+		return "Room removed successfully!";
 	}
 
 	/**
