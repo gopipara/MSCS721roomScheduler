@@ -10,34 +10,64 @@
 	</scm>
  -->	<packaging>jar</packaging>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-core-asl</artifactId>
-				<version>1.9.13</version>
-				<scope>test</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
-
-			</plugin>
-		</plugins>
-	</build>
+<dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.13</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<name>RS_SonarCube</name>
-	<description>This website is useful for scheduling rooms. Main menu has different options for users to schedule a room and to schedule meetings or party's etc..
+</dependencyManagement>
+	
+	
+<build>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-javadoc-plugin</artifactId>
+			<version>2.10.3</version>
+        </plugin>
+            
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.14.1</version>
+            <configuration>
+                <testSourceDirectory>src/foobar/java</testSourceDirectory>
+            </configuration>
+		 </plugin>
+	</plugins>
+</build>
+
+
+<reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.19.1</version>
+      </plugin>
+    </plugins>
+  </reporting>
+	
+	
+<dependencies>
+   <dependency>
+	  <groupId>org.codehaus.jackson</groupId>
+	  <artifactId>jackson-core-asl</artifactId>
+   </dependency>
+		
+   <dependency>
+	     <groupId>junit</groupId>
+	     <artifactId>junit</artifactId>
+	     <version>4.12</version>
+   </dependency>
+</dependencies>
+	
+<name>RS_SonarCube</name>
+<description>This website is useful for scheduling rooms. Main menu has different options for users to schedule a room and to schedule meetings or party's etc..
 This website has main menu which provides options like
 1.Add a room
 2.Remove a room
@@ -46,11 +76,13 @@ This website has main menu which provides options like
 5.Export rooms
 6. Import rooms
 Using these options user can add room and schedule meetings to it. Select the room which he wants if it is available in the roomlist.</description>
-	<scm>
-		<url>https://github.com/gopipara/MSCS721roomScheduler</url>
-	</scm>
+	
+<scm>
+	<url>https://github.com/gopipara/MSCS721roomScheduler</url>
+</scm>
 	<url>file:///C:/Users/Gopi/workspace/RS_SonarCube/target/site/index.html</url>
-	<issueManagement>
+	
+<issueManagement>
 		<system>Gopi</system>
-	</issueManagement>
+</issueManagement>
 </project>
