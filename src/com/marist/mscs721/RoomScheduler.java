@@ -1,21 +1,29 @@
 package com.marist.mscs721;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Scanner;
+import java.util.logging.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class RoomScheduler {
 	protected static Scanner keyboard = new Scanner(System.in);
+	private static final Logger logger=Logger.getLogger("RoomScheduler.class");
 
 
 	public static void main(String[] args) 
 	{
-		
+		initializeLogging();
 		Boolean end = false;
 		ArrayList<Room> rooms = new ArrayList<Room>();
 
@@ -28,16 +36,16 @@ public class RoomScheduler {
 				addRoom(rooms);
 				break;
 			case 2:
-				System.out.println(removeRoom(rooms));
+				logger.info(removeRoom(rooms));
 				break;
 			case 3:
-				System.out.println(scheduleRoom(rooms));
+				logger.info(scheduleRoom(rooms));
 				break;
 			case 4:
-				System.out.println(listSchedule(rooms));
+				logger.info(listSchedule(rooms));
 				break;
 			case 5:
-				System.out.println(listRooms(rooms));
+				logger.info(listRooms(rooms));
 				break;
 			case 6:
 				exportRooms(rooms);
@@ -45,11 +53,26 @@ public class RoomScheduler {
 			case 7:
 				exportSchedule(rooms);
 				break;
+				
 			default:
-				System.out.println("Please enter between (1 - 7)");
+				System.out.println("Please enter between (1 - 7.)");
 				
 			}
 
+		}
+
+	}
+	private static void initializeLogging() {
+		Properties pro = new Properties();
+		try {
+			FileInputStream fstream= new FileInputStream(
+					"Configuration/log4j.properties");
+			pro.load(fstream);
+			PropertyConfigurator.configure(pro);
+		} 
+		
+		catch (IOException e) {
+			 logger.info("Error while reading the logging file");
 		}
 
 	}
@@ -76,13 +99,14 @@ public class RoomScheduler {
 			try {
 				file = new FileWriter("rooms.json");
 				file.write(roomObj.toJSONString());
-				System.out.println("Successfully Copied JSON Object to File...");
-				System.out.println("\nJSON Object: " + roomObj);
+				logger.info("Successfully Copied JSON Object to File...");
+				logger.info("\nJSON Object: " + roomObj);
 				file.flush();
 				file.close();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				logger.info("import unsuccesful");
 			}
 				
 		
@@ -122,8 +146,8 @@ public class RoomScheduler {
 		try {
 			file = new FileWriter("schedule.json");
 			file.write(scheduleObj.toJSONString());
-			System.out.println("Successfully Copied JSON Object to File...");
-			System.out.println("\nJSON Object: " + scheduleObj);
+			logger.info("Successfully Copied JSON Object to File...");
+			logger.info("\nJSON Object: " + scheduleObj);
 			file.flush();
 			file.close();
 		} catch (IOException e1) {
@@ -160,7 +184,7 @@ public class RoomScheduler {
 				 }
 				 else
 				 {
-					 System.out.println("No Schedule for the requested room: "+roomName);
+					 logger.info("No Schedule for the requested room: "+roomName);
 				 }
 				
 			}
@@ -221,11 +245,10 @@ public class RoomScheduler {
 			Room newRoom = new Room(name, capacity);
 			roomList.add(newRoom);
 
-			System.out.println("Room '" + newRoom.getName() + "' added successfully!");
+			logger.info("Room '" + newRoom.getName() + "' added successfully!");
 		} catch (Exception e) {
-			System.out.println("Error: Input Mismatch-  Capacity must be an Integer");
-            keyboard.next();
-			
+			logger.info("Error: Input Mismatch-  Capacity must be an Integer");
+            keyboard.next();		
 		}
 		
 	}
@@ -241,13 +264,17 @@ public class RoomScheduler {
 		
 		int roomIndex = findRoomIndex(roomList, getRoomName());
 		// i have found an error in the given code here. This method is removing the rooms which are not even present in the room list.
-		if(roomIndex>=0)
+		if(roomIndex>=0){
 			roomList.remove(roomIndex);
+		}
 		else
-			System.out.println("ERROR:Please check room no");
+			logger.info("ERROR:Please check room no");
 		
 		return "Room removed successfully";
 	}
+	
+	
+	
 
 	/**
 	 * This method is used to list the rooms available in the room list.
