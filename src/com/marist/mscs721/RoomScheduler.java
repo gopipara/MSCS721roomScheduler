@@ -331,15 +331,18 @@ public class RoomScheduler {
 	protected static String removeRoom(ArrayList<Room> roomList) 
 	{
 		System.out.println("Remove a room:");
+		String status = "";
 		
 		int roomIndex = findRoomIndex(roomList, getRoomName());
 		// i have found an error in the given code here. This method is removing the rooms which are not even present in the room list.
-		if(roomIndex>=0)
+		if(roomIndex>=0){
 			roomList.remove(roomIndex);
+			status =  "Room removed successfully!";
+		}
 		else
-			System.out.println("***ERROR*** Please check room no!!!");
+			status = "***ERROR*** Please check room no!!!";
 
-		return "Room removed successfully!";
+		return status;
 	}
 
 	/**
