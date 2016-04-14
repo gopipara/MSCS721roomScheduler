@@ -6,12 +6,16 @@ public class Room {
 	
 	private String name;
 	private int capacity;
+	private String building;
+	private String location;
 	private ArrayList<Meeting> meetings;
 	
 	
-	public Room(String newName, int newCapacity) {
+	public Room(String newName, int newCapacity, String building, String location) {
 		setName(newName);
 		setCapacity(newCapacity);
+		setBuilding(building);
+		setLocation(location);
 		setMeetings(new ArrayList<Meeting>());
 	}
 
@@ -27,6 +31,26 @@ public class Room {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+
+	public String getBuilding() {
+		return building;
+	}
+
+
+	public void setBuilding(String building) {
+		this.building = building;
+	}
+	
+	public String getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 
 
 	public int getCapacity() {
