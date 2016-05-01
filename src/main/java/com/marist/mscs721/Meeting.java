@@ -1,14 +1,19 @@
+/**
+   * Gopi License
+   * © 2016 ALL RIGHTS RESERVED
+   */
+
 package main.java.com.marist.mscs721;
 
 import java.sql.Timestamp;
 
 public class Meeting {
-	
+
 	private Timestamp startTime = null;
 	private Timestamp stopTime = null;
 	private String subject = null;
 
-	
+
 	public Meeting(Timestamp newStartTime, Timestamp newEndTime, String newSubject) {
 		setStartTime(newStartTime);
 		setStopTime(newEndTime);
@@ -23,7 +28,7 @@ public class Meeting {
 	public String toString() {
 		return this.getStartTime().toString() + " - " + this.getStopTime() + ": " + getSubject();
 	}
-	
+
 	public Timestamp getStartTime() {
 		return startTime;
 	}

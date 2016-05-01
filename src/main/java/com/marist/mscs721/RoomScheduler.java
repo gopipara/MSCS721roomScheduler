@@ -1,3 +1,9 @@
+/**
+   * Gopi License
+   * © 2016 ALL RIGHTS RESERVED
+   */
+
+
 package main.java.com.marist.mscs721;
 
 import java.io.FileNotFoundException;
@@ -6,6 +12,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+
+
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -212,7 +220,7 @@ public class RoomScheduler {
 
 	/**
 	 * This method assigns the room list into the array.
-	 * 
+	 *
 	 * @param roomList
 	 * @return schedule for rooms and the rooms available,if not equal to -1
 	 *         -1(indicates that there is no room and if there is no schedule
@@ -284,9 +292,9 @@ public class RoomScheduler {
 
 	/**
 	 * This method adds the rooms to the room list.
-	 * 
+	 *
 	 * @param string
-	 * @return 
+	 * @return
 	 */
 	protected static String addRoom(ArrayList<Room> roomList) {
 		try {
@@ -331,7 +339,7 @@ public class RoomScheduler {
 
 	/**
 	 * This method removes the room from the room list.
-	 * 
+	 *
 	 * @param string
 	 *            <> roomList into an array list
 	 * @return "Room removed successfully!"
@@ -354,7 +362,7 @@ public class RoomScheduler {
 
 	/**
 	 * This method is used to list the rooms available in the room list.
-	 * 
+	 *
 	 * @param string
 	 *            <>list rooms from the array list.
 	 * @return Available rooms in the Room list
@@ -376,7 +384,7 @@ public class RoomScheduler {
 	/**
 	 * This method is used to schedule a room if the room is available and if
 	 * there is no schedule for the available room.
-	 * 
+	 *
 	 * @param roomList
 	 * @return <>scheduling a room.
 	 */
@@ -468,7 +476,7 @@ public class RoomScheduler {
 
 	/**
 	 * This method is used to check the conflict for scheduling a room.
-	 * 
+	 *
 	 * @param roomList
 	 *            <> room list from the array list
 	 * @param roomName
@@ -512,7 +520,7 @@ public class RoomScheduler {
 	/**
 	 * This function returns room index if the given room found in the roomList
 	 * else returns -1.
-	 * 
+	 *
 	 * @param roomList
 	 *            <> room index in the array list
 	 * @param roomName
@@ -544,7 +552,7 @@ public class RoomScheduler {
 
 	/**
 	 * This method is used check the schedule
-	 * 
+	 *
 	 * @return <> "Room Name?"
 	 */
 	protected static String getRoomName() {

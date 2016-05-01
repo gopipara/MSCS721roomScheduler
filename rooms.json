@@ -1,1 +1,5 @@
+/**
+   * Gopi License
+   * © 2016 ALL RIGHTS RESERVED
+   */
 [{"location":"a","roomName":"a","building":"a","capacity":1},{"location":"b","roomName":"b","building":"b","capacity":2},{"location":"c","roomName":"c","building":"c","capacity":3},{"location":"d","roomName":"d","building":"d","capacity":4},{"location":"e","roomName":"e","building":"e","capacity":5},{"location":"f","roomName":"f","building":"f","capacity":6},{"location":"g","roomName":"g","building":"g","capacity":7},{"location":"h","roomName":"h","building":"h","capacity":8},{"location":"i","roomName":"i","building":"i","capacity":9},{"location":"j","roomName":"j","building":"j","capacity":0}]

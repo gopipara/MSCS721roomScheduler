@@ -1,0 +1,51 @@
+
+*****************************************************
+Summary
+-------
+Generated at: 2016-05-01T17:29:22-04:00
+Notes: 0
+Binaries: 4
+Archives: 1
+Standards: 7
+
+Apache Licensed: 0
+Generated Documents: 0
+
+JavaDocs are generated and so license header is optional
+Generated files do not required license headers
+
+0 Unknown Licenses
+
+*******************************
+
+Unapproved licenses:
+
+
+*******************************
+
+Archives:
+
+ + jar/json-simple-1.1.1.jar
+ 
+*****************************************************
+  Files with Apache License headers will be marked AL
+  Binary files (which do not require AL headers) will be marked B
+  Compressed archives will be marked A
+  Notices, licenses etc will be marked N
+  B     bin/com/marist/mscs721/Meeting.class
+  B     bin/com/marist/mscs721/package-info.class
+  B     bin/com/marist/mscs721/Room.class
+  B     bin/com/marist/mscs721/RoomScheduler.class
+  A     jar/json-simple-1.1.1.jar
+  PGC pom.xml
+  PGC rooms.json
+  PGC schedule.json
+  PGC src/main/java/com/marist/mscs721/Meeting.java
+  PGC src/main/java/com/marist/mscs721/package-info.java
+  PGC src/main/java/com/marist/mscs721/Room.java
+  PGC src/main/java/com/marist/mscs721/RoomScheduler.java
+ 
+*****************************************************
+ Printing headers for files without AL header...
+ 
+ 
