@@ -2,7 +2,7 @@ package com.marist.mscs721;
 
 import java.sql.Timestamp;
 
-public class Meeting.. {
+public class Meetin{
 
 	private Timestamp startTime = null;
 	private Timestamp stopTime = null;
