@@ -13,6 +13,5 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Gopi/Desktop/eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Gopi/workspace/RoomScheduler/jar/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Gopi/Desktop/json-simple-1.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
